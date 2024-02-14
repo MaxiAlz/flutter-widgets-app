@@ -38,5 +38,10 @@ const appMenuItems = <MenuItems>[
       title: 'animated',
       subtittle: 'animacion en pantalla',
       link: '/animated',
-      icon: Icons.move_up_outlined)
+      icon: Icons.move_up_outlined),
+  MenuItems(
+      title: 'ui-controls',
+      subtittle: 'controles de pantalla',
+      link: '/controls',
+      icon: Icons.noise_control_off_sharp)
 ];
