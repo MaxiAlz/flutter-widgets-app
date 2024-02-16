@@ -8,7 +8,10 @@ class ThemeChangerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final isDarkMode = ref.watch(isDarkModeProvider);
+    // final isDarkMode = ref.watch(isDarkModeProvider);
+
+    //usando con StateNotifierProvider
+    final isDarkMode = ref.watch(themeNotifierProvider).isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
@@ -16,28 +19,32 @@ class ThemeChangerScreen extends ConsumerWidget {
         actions: [
           IconButton(
               onPressed: () {
-                ref.read(isDarkModeProvider.notifier).update((state) => !state);
+                // ref.read(isDarkModeProvider.notifier).update((state) => !state);
+
+                //usando con StateNotifierProvider
+                ref.read(themeNotifierProvider.notifier).toggleDarkMode();
               },
               icon: Icon(isDarkMode
                   ? Icons.light_mode_outlined
                   : Icons.dark_mode_outlined))
         ],
       ),
-      body: _ThemeChangerView(),
+      body: const _ThemeChangerView(),
     );
   }
 }
 
 class _ThemeChangerView extends ConsumerWidget {
-  const _ThemeChangerView({
-    super.key,
-  });
+  const _ThemeChangerView();
 
   @override
   Widget build(BuildContext context, ref) {
     //listado de colores
     final List<Color> colors = ref.watch(colorListProvider);
-    final int selectedIndexColor = ref.watch(selectedColorProvider);
+    // final int selectedIndexColor = ref.watch(selectedColorProvider);
+
+    final int selectedColorNotifier =
+        ref.watch(themeNotifierProvider).selectedColor;
 
     return ListView.builder(
       itemCount: colors.length,
@@ -51,9 +58,9 @@ class _ThemeChangerView extends ConsumerWidget {
           subtitle: Text('${color.value}'),
           activeColor: color,
           value: index,
-          groupValue: selectedIndexColor,
+          groupValue: /* selectedIndexColor */ selectedColorNotifier,
           onChanged: (value) {
-            ref.read(selectedColorProvider.notifier).state = index;
+            ref.read(themeNotifierProvider.notifier).changeColorProvider(index);
           },
         );
       },
